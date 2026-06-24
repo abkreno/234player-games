@@ -1,7 +1,7 @@
 export type PlayerId = 1 | 2 | 3 | 4;
 export type PlayerCount = 1 | 2 | 3 | 4;
 export type AppScreen = 'setup' | 'games' | 'playing' | 'result';
-export type GameId = 'find-match';
+export type GameId = 'find-match' | 'basketball-hoops';
 
 export type Player = {
   id: PlayerId;
