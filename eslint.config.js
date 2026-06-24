@@ -10,6 +10,7 @@ export default tseslint.config(
   {
     files: ['src/**/*.ts'],
     rules: {
+      'no-undef': 'off',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-non-null-assertion': 'error',
     },
