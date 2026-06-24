@@ -27,7 +27,7 @@ export function GamesScreen({ players, sessionScores, onSelectGame }: GamesScree
               type="button"
               disabled={!isAvailable}
               onClick={() => {
-                if (game.id === 'find-match') {
+                if (isAvailable) {
                   onSelectGame(game.id);
                 }
               }}
