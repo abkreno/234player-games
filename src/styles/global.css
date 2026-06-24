@@ -347,6 +347,144 @@ h1 {
   line-height: 1;
 }
 
+.basketball-court {
+  --player-color: var(--brand);
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border: 6px solid var(--player-color);
+  border-radius: 36px;
+  padding: clamp(18px, 4vw, 34px);
+  background:
+    linear-gradient(180deg, rgb(191 219 254 / 72%) 0%, rgb(219 234 254 / 58%) 48%, transparent 48%),
+    linear-gradient(180deg, #fed7aa 48%, #fb923c 100%);
+  box-shadow: var(--shadow);
+}
+
+.basketball-hoop {
+  position: absolute;
+  top: 68px;
+  right: clamp(38px, 11vw, 132px);
+  width: 160px;
+  height: 150px;
+}
+
+.basketball-backboard {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 118px;
+  height: 82px;
+  border: 7px solid #ffffff;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 44%);
+  box-shadow: 0 12px 30px rgb(30 64 175 / 18%);
+}
+
+.basketball-rim {
+  position: absolute;
+  top: 72px;
+  right: 32px;
+  width: 76px;
+  height: 18px;
+  border: 7px solid #ef4444;
+  border-top: 0;
+  border-radius: 0 0 999px 999px;
+}
+
+.basketball-net {
+  position: absolute;
+  top: 92px;
+  right: 42px;
+  width: 54px;
+  height: 56px;
+  border-right: 4px dashed rgb(255 255 255 / 86%);
+  border-left: 4px dashed rgb(255 255 255 / 86%);
+  transform: perspective(80px) rotateX(18deg);
+}
+
+.basketball-ball {
+  position: absolute;
+  bottom: 132px;
+  left: clamp(32px, 9vw, 110px);
+  display: grid;
+  place-items: center;
+  width: clamp(58px, 12vw, 92px);
+  height: clamp(58px, 12vw, 92px);
+  border-radius: 50%;
+  font-size: clamp(3.1rem, 9vw, 5.4rem);
+  filter: drop-shadow(0 18px 16px rgb(124 45 18 / 22%));
+  transform-origin: center;
+}
+
+.basketball-shot-feedback {
+  position: absolute;
+  right: clamp(18px, 4vw, 42px);
+  bottom: 154px;
+  left: clamp(18px, 4vw, 42px);
+  border: 4px solid rgb(255 255 255 / 70%);
+  border-radius: 24px;
+  padding: 14px 18px;
+  background: rgb(255 255 255 / 78%);
+  color: var(--ink);
+  font-size: clamp(1.1rem, 3vw, 1.7rem);
+  font-weight: 900;
+  text-align: center;
+}
+
+.power-meter {
+  position: absolute;
+  right: clamp(18px, 4vw, 42px);
+  bottom: 92px;
+  left: clamp(18px, 4vw, 42px);
+  height: 26px;
+  border: 4px solid #7c2d12;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ef4444 0 43%, #22c55e 43% 57%, #ef4444 57% 100%);
+  box-shadow: inset 0 2px 8px rgb(0 0 0 / 18%);
+}
+
+.power-meter__zone {
+  position: absolute;
+  top: -14px;
+  left: 43%;
+  width: 14%;
+  height: 46px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 34%);
+}
+
+.power-meter__marker {
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 44px;
+  border: 4px solid #1f2937;
+  border-radius: 999px;
+  background: #ffffff;
+  transform: translate(-50%, -50%);
+  transition: left 40ms linear;
+}
+
+.shoot-button {
+  position: absolute;
+  right: clamp(18px, 4vw, 42px);
+  bottom: 22px;
+  left: clamp(18px, 4vw, 42px);
+  border: 0;
+  border-radius: 999px;
+  padding: 18px 24px;
+  background: #1d4ed8;
+  color: white;
+  box-shadow: 0 16px 40px rgb(30 64 175 / 26%);
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  font-weight: 900;
+}
+
+.shoot-button:disabled {
+  opacity: 0.68;
+}
+
 .result-screen {
   display: grid;
   place-items: center;
@@ -394,6 +532,10 @@ h1 {
   .find-match-board--large {
     grid-template-columns: repeat(4, minmax(58px, 1fr));
   }
+
+  .basketball-court {
+    min-height: 500px;
+  }
 }
 
 @media (max-width: 520px) {
@@ -418,6 +560,17 @@ h1 {
   .find-match-board--medium,
   .find-match-board--large {
     grid-template-columns: repeat(2, minmax(76px, 1fr));
+  }
+
+  .basketball-hoop {
+    top: 48px;
+    right: 16px;
+    transform: scale(0.78);
+    transform-origin: top right;
+  }
+
+  .basketball-court {
+    min-height: 470px;
   }
 
   .session-score {
