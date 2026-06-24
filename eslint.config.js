@@ -8,7 +8,7 @@ export default tseslint.config(
     ignores: ['dist'],
   },
   {
-    files: ['src/**/*.ts'],
+    files: ['src/**/*.{ts,tsx}'],
     rules: {
       'no-undef': 'off',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
