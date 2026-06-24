@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { Player } from '../app/appTypes';
 
 type PlayerBadgeProps = {
@@ -11,7 +12,7 @@ export function PlayerBadge({ player, score, compact = false, active = false }: 
   return (
     <span
       className={`player-badge ${active ? 'player-badge--active' : ''}`}
-      style={{ '--player-color': player.color } as React.CSSProperties}
+      style={{ '--player-color': player.color } as CSSProperties}
     >
       <span className="player-badge__dot" aria-hidden="true" />
       <span>{compact ? player.shortLabel : player.label}</span>
