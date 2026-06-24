@@ -1,5 +1,5 @@
 import type { Player, PlayerId } from '../../app/appTypes';
-import type { BasketballAction, BasketballState } from './basketballTypes';
+import type { BasketballAction, BasketballState, PowerDirection } from './basketballTypes';
 import { SHOTS_PER_PLAYER } from './basketballTypes';
 
 function createEmptyScores(players: Player[]): Record<PlayerId, number> {
@@ -38,6 +38,23 @@ function areAllShotsComplete(state: BasketballState): boolean {
   return state.playerOrder.every((playerId) => state.shotsTaken[playerId] >= SHOTS_PER_PLAYER);
 }
 
+function getNextPowerState(
+  power: number,
+  direction: PowerDirection,
+): Pick<BasketballState, 'currentPower' | 'powerDirection'> {
+  const nextPower = power + direction * 3;
+
+  if (nextPower >= 100) {
+    return { currentPower: 100, powerDirection: -1 };
+  }
+
+  if (nextPower <= 0) {
+    return { currentPower: 0, powerDirection: 1 };
+  }
+
+  return { currentPower: nextPower, powerDirection: direction };
+}
+
 export function createInitialBasketballState(players: Player[]): BasketballState {
   const firstPlayerId = getRandomPlayerId(players);
 
@@ -48,6 +65,7 @@ export function createInitialBasketballState(players: Player[]): BasketballState
     gameScores: createEmptyScores(players),
     shotsTaken: createEmptyScores(players),
     currentPower: 0,
+    powerDirection: 1,
   };
 }
 
@@ -56,14 +74,14 @@ export function basketballReducer(
   action: BasketballAction,
 ): BasketballState {
   switch (action.type) {
-    case 'powerChanged':
+    case 'powerTick':
       if (state.phase !== 'aiming') {
         return state;
       }
 
       return {
         ...state,
-        currentPower: action.power,
+        ...getNextPowerState(state.currentPower, state.powerDirection),
       };
 
     case 'shoot': {
@@ -90,7 +108,7 @@ export function basketballReducer(
     }
 
     case 'nextTurn': {
-      if (state.phase !== 'shot-result' && state.phase !== 'turn-transition') {
+      if (state.phase !== 'shot-result') {
         return state;
       }
 
@@ -106,6 +124,7 @@ export function basketballReducer(
         phase: 'aiming',
         currentPlayerId: getNextPlayerId(state),
         currentPower: 0,
+        powerDirection: 1,
         shotResult: undefined,
       };
     }
