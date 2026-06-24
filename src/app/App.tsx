@@ -4,6 +4,7 @@ import { flushSync } from 'react-dom';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { appReducer, initialAppState } from './appReducer';
 import type { AppAction, AppState, GameId, GameResult, PlayerCount } from './appTypes';
+import { BasketballHoopsGame } from '../games/basketball-hoops/BasketballHoopsGame';
 import { FindMatchGame } from '../games/find-match/FindMatchGame';
 import { GamesScreen } from '../screens/GamesScreen';
 import { ResultScreen } from '../screens/ResultScreen';
@@ -30,7 +31,7 @@ function RoutedApp({ state, dispatch }: RoutedAppProps) {
 
   function handleSelectGame(gameId: GameId): void {
     dispatchBeforeNavigation(dispatch, { type: 'selectGame', gameId });
-    navigate('/game/find-match');
+    navigate(`/game/${gameId}`);
   }
 
   function handleCompleteGame(result: GameResult): void {
@@ -71,6 +72,20 @@ function RoutedApp({ state, dispatch }: RoutedAppProps) {
         element={
           state.playerCount && state.selectedGameId === 'find-match' ? (
             <FindMatchGame
+              players={state.players}
+              onComplete={handleCompleteGame}
+              onExit={handleExitGame}
+            />
+          ) : (
+            <Navigate to="/setup" replace />
+          )
+        }
+      />
+      <Route
+        path="/game/basketball-hoops"
+        element={
+          state.playerCount && state.selectedGameId === 'basketball-hoops' ? (
+            <BasketballHoopsGame
               players={state.players}
               onComplete={handleCompleteGame}
               onExit={handleExitGame}
