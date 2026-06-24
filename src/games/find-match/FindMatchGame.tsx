@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useMemo, useReducer, useRef } from 'react';
-import type { GameResult, Player, PlayerId } from '../../app/appTypes';
+import type { CSSProperties } from 'react';
+import type { GameResult, Player } from '../../app/appTypes';
 import { PlayerBadge } from '../../components/PlayerBadge';
 import { findMatchReducer, createInitialFindMatchState, getWinners } from './findMatchReducer';
 import type { MatchCard } from './findMatchTypes';
@@ -135,7 +136,7 @@ export function FindMatchGame({ players, onComplete, onExit }: FindMatchGameProp
       <motion.section
         className="turn-banner"
         aria-live="polite"
-        style={{ '--player-color': currentPlayer.color } as React.CSSProperties}
+        style={{ '--player-color': currentPlayer.color } as CSSProperties}
         initial={prefersReducedMotion ? false : { y: -8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         key={currentPlayer.id}
@@ -145,7 +146,7 @@ export function FindMatchGame({ players, onComplete, onExit }: FindMatchGameProp
 
       <section
         className="board-wrap"
-        style={{ '--player-color': currentPlayer.color } as React.CSSProperties}
+        style={{ '--player-color': currentPlayer.color } as CSSProperties}
       >
         <div className={gridClass} aria-label="Find the Match card board">
           {state.cards.map((card) => {
