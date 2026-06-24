@@ -5,75 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="A fast shared-keyboard arena game for 2, 3, or 4 players."
+      content="A playful 1–4 player family mini-game platform for one shared screen."
     />
-    <title>2 3 4 Player Games — Mini Arena</title>
+    <title>1 2 3 4 Player Games — Find the Match</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <main class="app-shell">
-      <section class="hero" aria-labelledby="game-title">
-        <div>
-          <p class="eyebrow">local multiplayer • one keyboard • quick rounds</p>
-          <h1 id="game-title">Mini Arena</h1>
-          <p class="subtitle">
-            Choose 2, 3, or 4 players, dodge hazards, collect stars, and be the
-            last square standing.
-          </p>
-        </div>
-        <div class="score-card" aria-label="Round scoreboard">
-          <span>Round</span>
-          <strong id="roundNumber">1</strong>
-        </div>
-      </section>
-
-      <section class="panel setup-panel" aria-label="Game setup">
-        <div>
-          <h2>Players</h2>
-          <div class="player-buttons" role="group" aria-label="Select player count">
-            <button class="pill active" data-player-count="2">2 Players</button>
-            <button class="pill" data-player-count="3">3 Players</button>
-            <button class="pill" data-player-count="4">4 Players</button>
-          </div>
-        </div>
-        <div class="actions">
-          <button id="startBtn" class="primary">Start Game</button>
-          <button id="resetBtn" class="secondary">Reset</button>
-        </div>
-      </section>
-
-      <section class="game-layout">
-        <aside class="panel controls" aria-label="Player controls">
-          <h2>Controls</h2>
-          <div id="controlsList" class="controls-list"></div>
-          <p class="hint">
-            Tip: each player uses four keys. Collect stars for points, but avoid
-            red hazards and the arena edge.
-          </p>
-        </aside>
-
-        <section class="arena-card" aria-label="Game arena">
-          <canvas id="gameCanvas" width="960" height="600"></canvas>
-          <div id="overlay" class="overlay">
-            <div>
-              <h2>Ready?</h2>
-              <p>Select player count, then press Start Game.</p>
-            </div>
-          </div>
-        </section>
-
-        <aside class="panel leaderboard" aria-label="Leaderboard">
-          <h2>Scoreboard</h2>
-          <div id="scoreboard"></div>
-        </aside>
-      </section>
-    </main>
-
-    <script type="module" src="/src/main.ts"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

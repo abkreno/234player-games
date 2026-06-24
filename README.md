@@ -1,27 +1,22 @@
-# 2 3 4 Player Games — Mini Arena
+# 1 2 3 4 Player Games
 
-A browser-based local multiplayer 2D party game inspired by shared-keyboard games: choose 2, 3, or 4 players, dodge moving hazards, collect stars, and survive as long as possible.
+A playful family mini-game platform for 1–4 players sharing one laptop or tablet.
 
-## What was built
+The current visible game is **Find the Match**, a turn-based memory game where players flip cards, match shapes, and compete to win the most pairs.
 
-The first prototype was upgraded into a modern TypeScript/Vite web game project:
+## What is included
 
-- Strict TypeScript source code under `src/`
-- Vite dev server and production build pipeline
-- ESLint and Prettier configs for consistent code quality
-- Modular game architecture with separated config, domain types, math helpers, and game loop logic
-- Canvas-based 2D rendering with high-DPI resizing
-- Keyboard input handling for 2, 3, and 4 local players
-- Round system, score system, hazards, collectible stars, particles, and responsive UI
-
-## Tech stack
-
-- **TypeScript** for typed game state, entities, config, and DOM integration
-- **Vite** for fast local development and optimized production builds
-- **HTML Canvas 2D** for lightweight rendering without a heavy engine dependency
-- **ESLint** for static analysis
-- **Prettier** for formatting
-- **CSS Grid/Flexbox** for responsive game layout
+- React + TypeScript + Vite app shell
+- React Router screens:
+  - `/setup`
+  - `/games`
+  - `/game/find-match`
+  - `/result`
+- Framer Motion card/turn/result animations
+- Session score across games
+- One active game: **Find the Match**
+- Disabled Coming Soon game cards
+- Legacy Mini Arena code kept hidden/dev-only
 
 ## Run locally
 
@@ -49,51 +44,71 @@ Preview the production build:
 npm run preview
 ```
 
-Run all checks:
+Run checks:
 
 ```bash
 npm run check
 ```
 
-## Controls
+## App flow
 
-- Player 1: `W` `A` `S` `D`
-- Player 2: arrow keys
-- Player 3: `I` `J` `K` `L`
-- Player 4: `T` `F` `G` `H`
+1. Choose player count: 1, 2, 3, or 4 players.
+2. Pick a game on the Games Screen.
+3. Find the Match starts immediately.
+4. Winner screen appears when the board is cleared.
+5. Tap anywhere to return to Games Screen.
+6. Winner receives +1 session point.
 
-## Game rules
+## Find the Match rules
 
-- Select 2, 3, or 4 players.
-- Move inside the arena and avoid the red hazards.
-- Collect stars for +1 point.
-- Last player standing wins the round and gets +5 points.
-- The next round starts automatically.
+- Players share one device.
+- Use mouse/touch to flip cards.
+- Match by shape.
+- If cards match, the player gets +1 game point and keeps the turn.
+- If cards do not match, they flip back and the next player goes.
+- Game ends when all pairs are removed.
+- Highest score wins.
+- Tied highest players each receive +1 session point.
+
+## Board size
+
+| Players | Pairs | Cards |
+| --- | ---: | ---: |
+| 1 | 4 | 8 |
+| 2 | 5 | 10 |
+| 3 | 6 | 12 |
+| 4 | 8 | 16 |
 
 ## Project structure
 
 ```text
-.
-├── index.html
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-├── eslint.config.js
-├── docs/
-│   └── IMPLEMENTATION.md
-└── src/
-    ├── main.ts
-    ├── styles.css
-    ├── config/
-    │   └── players.ts
-    └── game/
-        ├── Game.ts
-        ├── math.ts
-        └── types.ts
+src/
+├── app/
+│   ├── App.tsx
+│   ├── appReducer.ts
+│   ├── appTypes.ts
+│   └── gameRegistry.ts
+├── components/
+│   ├── PlayerBadge.tsx
+│   ├── ScreenShell.tsx
+│   └── SessionScoreBar.tsx
+├── games/
+│   └── find-match/
+│       ├── FindMatchGame.tsx
+│       ├── ShapeIcon.tsx
+│       ├── board.ts
+│       ├── findMatchReducer.ts
+│       ├── findMatchTypes.ts
+│       └── shapes.ts
+├── screens/
+│   ├── GamesScreen.tsx
+│   ├── ResultScreen.tsx
+│   └── SetupScreen.tsx
+├── styles/
+│   └── global.css
+└── main.tsx
 ```
 
-## Architecture summary
+## Roadmap
 
-`src/main.ts` validates required DOM elements and starts the game. `src/game/Game.ts` owns the game lifecycle, input handling, state updates, collision checks, scoring, and rendering. `src/game/types.ts` defines the domain model, while `src/config/players.ts` keeps player controls and colors separate from gameplay logic.
-
-See [`docs/IMPLEMENTATION.md`](docs/IMPLEMENTATION.md) for the detailed implementation notes and 2D game best practices used.
+See [`docs/NEXT_STEPS.md`](docs/NEXT_STEPS.md) for the current product plan, testing plan, and deployment plan.
