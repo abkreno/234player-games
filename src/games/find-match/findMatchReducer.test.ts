@@ -99,6 +99,7 @@ describe('Find the Match reducer', () => {
   });
 
   it('marks the game complete when the final pair is removed', () => {
+    vi.useFakeTimers();
     vi.setSystemTime(new Date('2026-06-25T00:00:00Z'));
 
     const state = createInitialFindMatchState(createTestPlayers(1));
