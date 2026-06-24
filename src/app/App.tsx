@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import type { Dispatch } from 'react';
+import { flushSync } from 'react-dom';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { appReducer, initialAppState } from './appReducer';
 import type { AppAction, AppState, GameId, GameResult, PlayerCount } from './appTypes';
@@ -13,31 +14,37 @@ type RoutedAppProps = {
   dispatch: Dispatch<AppAction>;
 };
 
+function dispatchBeforeNavigation(dispatch: Dispatch<AppAction>, action: AppAction): void {
+  flushSync(() => {
+    dispatch(action);
+  });
+}
+
 function RoutedApp({ state, dispatch }: RoutedAppProps) {
   const navigate = useNavigate();
 
   function handleSelectPlayerCount(playerCount: PlayerCount): void {
-    dispatch({ type: 'selectPlayerCount', playerCount });
+    dispatchBeforeNavigation(dispatch, { type: 'selectPlayerCount', playerCount });
     navigate('/games');
   }
 
   function handleSelectGame(gameId: GameId): void {
-    dispatch({ type: 'selectGame', gameId });
+    dispatchBeforeNavigation(dispatch, { type: 'selectGame', gameId });
     navigate('/game/find-match');
   }
 
   function handleCompleteGame(result: GameResult): void {
-    dispatch({ type: 'completeGame', result });
+    dispatchBeforeNavigation(dispatch, { type: 'completeGame', result });
     navigate('/result');
   }
 
   function handleContinueFromResult(): void {
-    dispatch({ type: 'continueFromResult' });
+    dispatchBeforeNavigation(dispatch, { type: 'continueFromResult' });
     navigate('/games');
   }
 
   function handleExitGame(): void {
-    dispatch({ type: 'exitGame' });
+    dispatchBeforeNavigation(dispatch, { type: 'exitGame' });
     navigate('/games');
   }
 
