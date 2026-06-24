@@ -44,7 +44,13 @@ Preview the production build:
 npm run preview
 ```
 
-Run checks:
+Run tests:
+
+```bash
+npm run test
+```
+
+Run all checks:
 
 ```bash
 npm run check
@@ -79,6 +85,25 @@ npm run check
 | 3 | 6 | 12 |
 | 4 | 8 | 16 |
 
+## Testing and CI
+
+The test suite focuses on pure game and platform logic:
+
+- board generation
+- Find the Match reducer transitions
+- match and mismatch behavior
+- board lock behavior
+- winner calculation
+- session score updates
+
+CI runs on pushes to `main` and on pull requests:
+
+```bash
+npm run lint
+npm run test
+npm run build
+```
+
 ## Project structure
 
 ```text
@@ -97,7 +122,9 @@ src/
 │       ├── FindMatchGame.tsx
 │       ├── ShapeIcon.tsx
 │       ├── board.ts
+│       ├── board.test.ts
 │       ├── findMatchReducer.ts
+│       ├── findMatchReducer.test.ts
 │       ├── findMatchTypes.ts
 │       └── shapes.ts
 ├── screens/
@@ -106,6 +133,10 @@ src/
 │   └── SetupScreen.tsx
 ├── styles/
 │   └── global.css
+├── test/
+│   ├── appReducer.test.ts
+│   ├── fixtures.ts
+│   └── setup.ts
 └── main.tsx
 ```
 
