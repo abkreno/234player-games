@@ -104,6 +104,21 @@ npm run test
 npm run build
 ```
 
+## Cloudflare Pages deployment
+
+Recommended Cloudflare Pages settings:
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | Vite |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+| Root directory | repository root |
+
+This project includes `public/_redirects` so React Router routes work when users refresh or directly open nested pages such as `/games`, `/game/find-match`, and `/result`.
+
+After the first successful deployment, add the live play URL here.
+
 ## Project structure
 
 ```text
