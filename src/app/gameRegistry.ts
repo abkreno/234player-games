@@ -8,6 +8,12 @@ export const GAME_REGISTRY: readonly GameDefinition[] = [
     status: 'available',
   },
   {
+    id: 'basketball-hoops',
+    title: 'Basketball Hoops',
+    description: 'Take turns, time your shot, and sink the most baskets.',
+    status: 'available',
+  },
+  {
     id: 'race-dash',
     title: 'Race Dash',
     description: 'A fast finish-line race for the next release.',
@@ -17,12 +23,6 @@ export const GAME_REGISTRY: readonly GameDefinition[] = [
     id: 'coin-rush',
     title: 'Coin Rush',
     description: 'Grab coins before the timer runs out.',
-    status: 'coming-soon',
-  },
-  {
-    id: 'tank-bounce',
-    title: 'Tank Bounce',
-    description: 'Bounce shots and survive the arena.',
     status: 'coming-soon',
   },
 ] as const;
