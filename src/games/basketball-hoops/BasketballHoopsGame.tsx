@@ -16,20 +16,46 @@ type BasketballHoopsGameProps = {
   onExit: () => void;
 };
 
+type ShotAnimation = {
+  x: number[];
+  y: number[];
+  scale: number[];
+  rotate: number[];
+};
+
 function getPowerPosition(power: number): string {
   return `${power}%`;
 }
 
-function getShotArc(power: number): string {
-  if (power >= 43 && power <= 57) {
-    return 'basketball-ball basketball-ball--made';
+function isMadePower(power: number): boolean {
+  return power >= 43 && power <= 57;
+}
+
+function getShotAnimation(power: number): ShotAnimation {
+  if (isMadePower(power)) {
+    return {
+      x: [0, 145, 290],
+      y: [0, -165, -92],
+      scale: [1, 0.9, 0.46],
+      rotate: [0, 260, 560],
+    };
   }
 
   if (power < 43) {
-    return 'basketball-ball basketball-ball--short';
+    return {
+      x: [0, 98, 192],
+      y: [0, -108, -24],
+      scale: [1, 0.94, 0.72],
+      rotate: [0, 180, 360],
+    };
   }
 
-  return 'basketball-ball basketball-ball--long';
+  return {
+    x: [0, 190, 365],
+    y: [0, -190, -134],
+    scale: [1, 0.84, 0.38],
+    rotate: [0, 320, 680],
+  };
 }
 
 export function BasketballHoopsGame({ players, onComplete, onExit }: BasketballHoopsGameProps) {
@@ -40,8 +66,8 @@ export function BasketballHoopsGame({ players, onComplete, onExit }: BasketballH
   );
   const prefersReducedMotion = useReducedMotion();
   const completedRef = useRef(false);
-  const directionRef = useRef(1);
   const currentPlayer = players.find((player) => player.id === state.currentPlayerId) ?? players[0];
+  const shotAnimation = getShotAnimation(state.lastShotPower ?? 0);
 
   useEffect(() => {
     if (state.phase !== 'aiming') {
@@ -49,27 +75,11 @@ export function BasketballHoopsGame({ players, onComplete, onExit }: BasketballH
     }
 
     const intervalId = window.setInterval(() => {
-      dispatch({ type: 'powerChanged', power: getNextPower(directionRef.current) });
+      dispatch({ type: 'powerTick' });
     }, 18);
 
     return () => window.clearInterval(intervalId);
   }, [state.phase]);
-
-  function getNextPower(direction: number): number {
-    const nextPower = state.currentPower + direction * 3;
-
-    if (nextPower >= 100) {
-      directionRef.current = -1;
-      return 100;
-    }
-
-    if (nextPower <= 0) {
-      directionRef.current = 1;
-      return 0;
-    }
-
-    return nextPower;
-  }
 
   useEffect(() => {
     if (state.phase !== 'shot-result') {
@@ -78,7 +88,7 @@ export function BasketballHoopsGame({ players, onComplete, onExit }: BasketballH
 
     const timeoutId = window.setTimeout(() => {
       dispatch({ type: 'nextTurn' });
-    }, 1100);
+    }, 1200);
 
     return () => window.clearTimeout(timeoutId);
   }, [state.phase, state.shotResult]);
@@ -123,7 +133,11 @@ export function BasketballHoopsGame({ players, onComplete, onExit }: BasketballH
         animate={{ y: 0, opacity: 1 }}
         key={currentPlayer.id}
       >
-        {currentPlayer.label}’s shot · {state.shotsTaken[currentPlayer.id] + 1}/{SHOTS_PER_PLAYER}
+        {currentPlayer.label}’s shot · {Math.min(
+          state.shotsTaken[currentPlayer.id] + 1,
+          SHOTS_PER_PLAYER,
+        )}
+        /{SHOTS_PER_PLAYER}
       </motion.section>
 
       <section className="basketball-court" style={{ '--player-color': currentPlayer.color } as CSSProperties}>
@@ -134,11 +148,16 @@ export function BasketballHoopsGame({ players, onComplete, onExit }: BasketballH
         </div>
 
         <motion.div
-          className={state.phase === 'shot-result' ? getShotArc(state.lastShotPower ?? 0) : 'basketball-ball'}
+          className="basketball-ball"
           aria-hidden="true"
           key={`${state.currentPlayerId}-${state.shotsTaken[state.currentPlayerId]}-${state.phase}`}
-          initial={prefersReducedMotion ? false : { x: 0, y: 0 }}
-          animate={state.phase === 'shot-result' && !prefersReducedMotion ? { x: 0, y: 0 } : undefined}
+          initial={{ x: 0, y: 0, scale: 1, rotate: 0 }}
+          animate={
+            state.phase === 'shot-result' && !prefersReducedMotion
+              ? shotAnimation
+              : { x: 0, y: 0, scale: 1, rotate: 0 }
+          }
+          transition={{ duration: 0.85, ease: 'easeOut' }}
         >
           🏀
         </motion.div>
