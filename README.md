@@ -2,7 +2,9 @@
 
 A playful family mini-game platform for 1–4 players sharing one laptop or tablet.
 
-The current visible game is **Find the Match**, a turn-based memory game where players flip cards, match shapes, and compete to win the most pairs.
+Live app: https://234player-games.pages.dev/setup
+
+The app currently includes two playable games: **Find the Match** and **Basketball Hoops**.
 
 ## What is included
 
@@ -11,10 +13,13 @@ The current visible game is **Find the Match**, a turn-based memory game where p
   - `/setup`
   - `/games`
   - `/game/find-match`
+  - `/game/basketball-hoops`
   - `/result`
-- Framer Motion card/turn/result animations
+- Framer Motion card/turn/result/ball animations
 - Session score across games
-- One active game: **Find the Match**
+- Playable games:
+  - **Find the Match**
+  - **Basketball Hoops**
 - Disabled Coming Soon game cards
 - Legacy Mini Arena code kept hidden/dev-only
 
@@ -60,8 +65,8 @@ npm run check
 
 1. Choose player count: 1, 2, 3, or 4 players.
 2. Pick a game on the Games Screen.
-3. Find the Match starts immediately.
-4. Winner screen appears when the board is cleared.
+3. The selected game starts immediately.
+4. Winner screen appears when the game ends.
 5. Tap anywhere to return to Games Screen.
 6. Winner receives +1 session point.
 
@@ -76,7 +81,7 @@ npm run check
 - Highest score wins.
 - Tied highest players each receive +1 session point.
 
-## Board size
+## Find the Match board size
 
 | Players | Pairs | Cards |
 | --- | ---: | ---: |
@@ -85,12 +90,27 @@ npm run check
 | 3 | 6 | 12 |
 | 4 | 8 | 16 |
 
+## Basketball Hoops rules
+
+- Players share one device.
+- Use mouse/touch to press **Shoot**.
+- Players take turns.
+- Each player gets 5 shots.
+- A moving power marker controls shot accuracy.
+- Stop the marker in the green zone to score.
+- Made shot = +1 game point.
+- Miss = 0.
+- Game ends when every player has taken all shots.
+- Highest score wins.
+- Tied highest players each receive +1 session point.
+
 ## Testing and CI
 
 The test suite focuses on pure game and platform logic:
 
 - board generation
 - Find the Match reducer transitions
+- Basketball Hoops reducer transitions
 - match and mismatch behavior
 - board lock behavior
 - winner calculation
@@ -115,9 +135,7 @@ Recommended Cloudflare Pages settings:
 | Build output directory | `dist` |
 | Root directory | repository root |
 
-This project includes `public/_redirects` so React Router routes work when users refresh or directly open nested pages such as `/games`, `/game/find-match`, and `/result`.
-
-After the first successful deployment, add the live play URL here.
+This project includes `public/_redirects` so React Router routes work when users refresh or directly open nested pages such as `/games`, `/game/find-match`, `/game/basketball-hoops`, and `/result`.
 
 ## Project structure
 
@@ -133,6 +151,11 @@ src/
 │   ├── ScreenShell.tsx
 │   └── SessionScoreBar.tsx
 ├── games/
+│   ├── basketball-hoops/
+│   │   ├── BasketballHoopsGame.tsx
+│   │   ├── basketballReducer.ts
+│   │   ├── basketballReducer.test.ts
+│   │   └── basketballTypes.ts
 │   └── find-match/
 │       ├── FindMatchGame.tsx
 │       ├── ShapeIcon.tsx

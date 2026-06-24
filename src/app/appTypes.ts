@@ -1,7 +1,8 @@
 export type PlayerId = 1 | 2 | 3 | 4;
 export type PlayerCount = 1 | 2 | 3 | 4;
 export type AppScreen = 'setup' | 'games' | 'playing' | 'result';
-export type GameId = 'find-match';
+export type GameId = 'find-match' | 'basketball-hoops';
+export type ComingSoonGameId = 'race-dash' | 'coin-rush' | 'tank-bounce';
 
 export type Player = {
   id: PlayerId;
@@ -37,9 +38,16 @@ export type AppAction =
   | { type: 'exitGame' }
   | { type: 'resetSession' };
 
-export type GameDefinition = {
-  id: GameId | 'race-dash' | 'coin-rush' | 'tank-bounce';
-  title: string;
-  description: string;
-  status: 'available' | 'coming-soon';
-};
+export type GameDefinition =
+  | {
+      id: GameId;
+      title: string;
+      description: string;
+      status: 'available';
+    }
+  | {
+      id: ComingSoonGameId;
+      title: string;
+      description: string;
+      status: 'coming-soon';
+    };
